@@ -5,7 +5,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import ru.kkb.bot.vk.audit.AccessLoggerAspect;
 
-
 /**
  * App config
  * @author Marchenko_DS in 31/05/2021 - 17:51

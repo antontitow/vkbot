@@ -13,10 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.kkb.bot.vk.config.BotApiConfig;
-import ru.kkb.bot.vk.dao.Message;
+import ru.kkb.bot.vk.config.ApiConfig;
 import ru.kkb.bot.vk.dao.SendPackage;
-import ru.kkb.bot.vk.service.ISendService;
+import ru.kkb.bot.vk.service.IApiService;
 
 
 import java.util.ArrayList;
@@ -44,10 +43,10 @@ class SendControllerTest {
 
     //@MockBean //дeргает подмену сервиса
     @Autowired //Дергает реальную реализацию
-    private ISendService service;
+    private IApiService service;
 
     @Autowired
-    private BotApiConfig botApiConfig;
+    private ApiConfig botApiConfig;
 
     /**
      * {"result":[{"code":"OK","messageId":"3617113923859110273","segmentsId":null}]}

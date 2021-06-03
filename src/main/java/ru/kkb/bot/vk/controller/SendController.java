@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.kkb.bot.vk.audit.AuditLog;
-import ru.kkb.bot.vk.service.SendService;
+import ru.kkb.bot.vk.service.ApiService;
 import ru.kkb.bot.vk.dao.SendPackage;
 
 
@@ -27,7 +26,7 @@ import ru.kkb.bot.vk.dao.SendPackage;
 public class SendController {
 
     @Autowired
-    SendService sendService;
+    ApiService sendService;
 
     @PostMapping("/send")
     @ApiOperation(value = "Send Message", notes = "Send Message controller", response = String.class)

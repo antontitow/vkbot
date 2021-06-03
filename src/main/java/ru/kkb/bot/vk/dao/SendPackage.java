@@ -1,5 +1,7 @@
 package ru.kkb.bot.vk.dao;
 
+import com.vk.api.sdk.objects.messages.Message;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,8 @@ import java.util.List;
  */
 @Setter
 @Getter
+@Builder
 public class SendPackage {
-    List<Message> messages = new ArrayList<>();
+    private Integer userId;
+    private String text;
 }

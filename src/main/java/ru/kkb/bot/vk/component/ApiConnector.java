@@ -10,20 +10,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.kkb.bot.vk.config.BotApiConfig;
+import ru.kkb.bot.vk.config.ApiConfig;
 
 import javax.annotation.PostConstruct;
 
 
 /**
+ * Api Connection
  * @author Marchenko_DS in 03/06/2021 - 18:36
  */
 @Component
 @Getter
 @Setter
-public class ApiConnection {
+public class ApiConnector {
     @Autowired
-    private BotApiConfig botApiConfig;
+    private ApiConfig botApiConfig;
 
     private GroupActor actor;
     private VkApiClient vk;

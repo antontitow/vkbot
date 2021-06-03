@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.kkb.bot.vk.service.ISendService;
+import ru.kkb.bot.vk.service.IApiService;
 
 /**
  * @author Marchenko_DS in 31/05/2021 - 17:51
@@ -20,16 +20,16 @@ public class LongPollTask extends BaseTask {
 
 
     @Autowired
-    private final ISendService sendService;
+    private final IApiService sendService;
 
-    public LongPollTask(ISendService sendService) {
+    public LongPollTask(IApiService sendService) {
         this.sendService = sendService;
     }
 
     @ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
     @Scheduled(fixedDelay = 500)
     public void scheduleTask() throws ClientException, ApiException {
-        sendService.checkLongPool();
+        sendService.checkLongPoll();
     }
 
     @Override
