@@ -69,10 +69,9 @@ class SendControllerTest {
      * @return
      */
     private SendPackage getTestMessage (){
-        SendPackage sendPackageTest = new SendPackage();
-        List<Message> messageList = new ArrayList<>();
-        messageList.add(botApiConfig.getMessage());
-        sendPackageTest.setMessages(messageList);
-        return sendPackageTest;
+        return  SendPackage.builder()
+                .userId(botApiConfig.getTestMessage().getUserId())
+                .text(botApiConfig.getTestMessage().getText())
+                .build();
     }
 }
