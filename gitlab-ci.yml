@@ -5,7 +5,7 @@ services:
 variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: test
-  USER_GITLAB: mastertony
+  USER_GITLAB: antontitow
   APP_NAME: vkbot
   REPO: kkb_microservice/vkbot
   CI_DEBUG_TRACE: "false"
