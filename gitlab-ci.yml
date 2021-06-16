@@ -1,0 +1,83 @@
+image: docker:dind
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+  SPRING_PROFILES_ACTIVE: test
+  USER_GITLAB: mastertony
+  APP_NAME: vkbot
+  REPO: kkb_microservice/vkbot
+  CI_DEBUG_TRACE: "false"
+  LOCAL_REGISTRY: localhost:5000
+  BUILD_IMAGE: gradle #maven:3-jdk-8
+  DOCKER_DIND_IMAGE: $LOCAL_REGISTRY/docker:dind
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  #MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=./.m2/repository -DskipTests=true"
+  # MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+
+
+stages:
+  - deploy_heroku
+  - build
+  - docker
+
+    #before_script:
+    # - export GRADLE_USER_HOME=`pwd`/.gradle
+
+    #cache:
+  #paths:
+  # - target/
+  #  - ./.m2/repository
+#key: "$CI_BUILD_REF_NAME"
+
+
+
+# gradle Proj build
+build:
+  image: $BUILD_IMAGE
+  stage: build
+  script:
+    - gradle --build-cache build
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+
+# Maven Proj
+#build:
+#  image: $BUILD_IMAGE
+#  stage: build
+#  script: #"mvn package -B"
+#    - mvn clean install $MAVEN_CLI_OPTS
+# artifacts:
+#    paths:
+#      - target/*.jar
+#  only:
+#    - master
+
+deploy_heroku:
+  image: ruby:2.4
+  stage: deploy_heroku
+  before_script:
+    - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APPNAME --api-key=$HEROKU_API_KEY
+    - export HEROKU_API_KEY=$HEROKU_API_KEY
+    - heroku run --app $HEROKU_APPNAME migrate
+  environment:
+    name: production
+    url: $HEROKU_APP_HOST
+
+#Deploy to local gitlab registry
+docker-package:
+  stage: docker
+  only:
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/$REPO .
+    - docker push registry.gitlab.com/$REPO
